@@ -25,10 +25,9 @@
                   function fn_enable(obj) {
                      document.getElementById("i_title").disabled = false;
                      document.getElementById("i_content").disabled = false;
-                     document.getElementById("i_imageFileName").disabled = false;
-                     console.log(i_imageFileName);
                      document.getElementById("tr_btn_modify").style.display = "block";
                      document.getElementById("tr_btn").style.display = "none";
+                     document.getElementById("i_imageFileName").disabled = false;
                   }
 
                   function fn_modify_article(obj) {
@@ -65,18 +64,9 @@
                         reader.readAsDataURL(input.files[0]);
                      }
                   }  
-                  function fn_reply_form(url, parentNO){
-             		 var form = document.createElement("form");
-             		 form.setAttribute("method", "post");
-             		 form.setAttribute("action", url);
-             	     var parentNOInput = document.createElement("input");
-             	     parentNOInput.setAttribute("type","hidden");
-             	     parentNOInput.setAttribute("name","parentNO");
-             	     parentNOInput.setAttribute("value", parentNO);
-             		 
-             	     form.appendChild(parentNOInput);
-             	     document.body.appendChild(form);
-             		 form.submit();
+                  function fn_reply_form(obj){
+                	  obj.action = "${contextPath}/board/replyForm.do?parentNO=${article.articleNO}";
+                      obj.submit();
              	 }
                </script>
 </head>
@@ -107,22 +97,27 @@
 						disabled>${article.content
                            }</textarea></td>
 			</tr>
-
-			<c:if
-				test="${not empty article.imageFileName && article.imageFileName!='null' }">
 				<tr>
 					<td width="150" align="center" bgcolor="#FF9933" rowspan="2">
 						이미지</td>
 					<td><input type="hidden" name="originalFileName"
-						value="${article.imageFileName }" /> <img
-						src="${contextPath}/download.do?articleNO=${article.articleNO}&imageFileName=${article.imageFileName}"
-						id="preview" /><br></td>
+						value="${article.imageFileName }" />
+			<c:if
+				test="${not empty article.imageFileName && article.imageFileName!='null' }">
+						 
+						<img src="${contextPath}/download.do?articleNO=${article.articleNO}&imageFileName=${article.imageFileName}"
+						id="preview" />
+			</c:if>
+			<c:if test="${empty article.imageFileName && article.imageFileName!='null' }">
+				<img src="" id="preview">
+			</c:if>
+					<br>
+					</td>
 				</tr>
 				<tr>
 					<td><input type="file" name="imageFileName "
 						id="i_imageFileName" disabled onchange="readURL(this);"/></td>
 				</tr>
-			</c:if>
 			<tr>
 				<td width=20% align=center bgcolor=#FF9933>등록일자</td>
 				<td><input type=text
@@ -141,7 +136,7 @@
 					<input type=button value="수정하기" onClick="fn_enable(this.form)"> 
 					<input type=button value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
 					<input type=button value="리스트로 돌아가기" onClick="backToList(this.form)"> 
-					<input type=button value="답글쓰기" onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${article.articleNO})">
+					<input type=button value="답글쓰기" onClick="fn_reply_form(this.form)">
 				</td>
 			</tr>
 		</table>

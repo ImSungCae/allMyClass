@@ -49,6 +49,7 @@ public class BoardController extends HttpServlet {
 		HttpSession session;
 		String action = req.getPathInfo();
 		System.out.println("action: " + action);
+		
 		try {
 			List<ArticleVO> articlesList = new ArrayList<ArticleVO>();
 			if(action.equals("/addArticle.do")) {

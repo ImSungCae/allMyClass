@@ -70,7 +70,7 @@
         <c:when test="${totArticles >100 }">  <!-- 글 개수가 100 초과인경우 -->
 	      <c:forEach   var="page" begin="1" end="10" step="1" >
 	         <c:if test="${section >1 && page==1 }">
-	          <a class="no-uline" href="${contextPath }/board/listArticles.do?section=${section-1}&pageNum=${(section-1)*10 +1 }">&nbsp; pre </a>
+	          <a class="no-uline" href="${contextPath }/board/listArticles.do?section=${section-1}&pageNum=${(section-1)*10+1 }">&nbsp; pre </a>
 	         </c:if>
 	          <a class="no-uline" href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
 	         <c:if test="${page ==10 }">
